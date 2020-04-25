@@ -418,11 +418,16 @@ namespace Downtify
 
         public async Task<Track> FetchTrack(string linkStr)
         {
-            var link = Link.CreateFromString(linkStr);
+            var link = Link.CreateFromString(SanitiseLink(linkStr));
             var track = link.AsTrack();
             await WaitForBool(track.IsLoaded);
 
             return track;
+        }
+
+        public string SanitiseLink(string linkStr)
+        {
+          return linkStr.Split('?')[0];
         }
 
         public void Download(Track track)
@@ -486,7 +491,7 @@ namespace Downtify
             return ret;
         }
 
-        private string getUpdatedTrackName(Track track) 
+        private string getUpdatedTrackName(Track track)
         {
             _counter = 0;
             var dir = _downloadPath + escape(GetTrackArtistsNames(track)) + "\\";
