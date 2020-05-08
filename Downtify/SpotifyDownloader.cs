@@ -353,6 +353,7 @@ namespace Downtify
             file.Tag.Track = (uint)_downloadingTrack.Index();
             file.Tag.Album = _downloadingTrack.Album().Name();
             file.Tag.Comment = Link.CreateFromTrack(_downloadingTrack, 0).AsString();
+            file.Tag.AlbumArtists = new string[] { _downloadingTrack.Album().Artist().Name() };
 
             // Download img
             Bitmap bmp = await DownloadImage(_downloadingTrack, 0);
