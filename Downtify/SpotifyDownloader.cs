@@ -334,13 +334,14 @@ namespace Downtify
             _wr.Close();
 
             // Move File
-            var dir = _downloadPath + escape(GetTrackArtistsNames(_downloadingTrack)) + "\\";
+            var fileName = getUpdatedTrackName(_downloadingTrack);
+            if (GetDownloadType() == DownloadType.OVERWRITE && File.Exists(fileName))
+                File.Delete(fileName);
+
+            var dir = Path.GetDirectoryName(fileName);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            var fileName = getUpdatedTrackName(_downloadingTrack); ;
-            if (GetDownloadType() == DownloadType.OVERWRITE && File.Exists(fileName))
-                File.Delete(fileName);
             File.Move("downloading", fileName);
 
             // Tags
