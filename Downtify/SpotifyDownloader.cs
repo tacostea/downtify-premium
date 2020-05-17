@@ -16,6 +16,7 @@ using SpotifyWebApi.Model.Enum;
 using SpotifyWebApi.Auth;
 using System.Net;
 using SpotifyWebApi.Model.Auth;
+using System.Linq;
 
 namespace Downtify
 {
@@ -587,21 +588,11 @@ namespace Downtify
 
         public static string SpotifyUrlToUri(string url)
         {
-            if (url == null)
-                return null;
-
-            var elements = url.Split('/');
-
-            if (IsSpotifyPlaylistUrl(url))
+            if(url.StartsWith("http"))
             {
-                return "spotify:user:" + elements[4] + ":playlist:" + elements[6];
+                var uri = new Uri(url);
+                return "spotify" + uri.AbsolutePath.Replace('/',':');
             }
-
-            if (IsSpotifyTrackAlbumUrl(url))
-            {
-                return "spotify:" + elements[3] + ":" + elements[4];
-            }
-
 
             return url;
         }
