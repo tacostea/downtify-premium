@@ -30,7 +30,7 @@ namespace Downtify
 
         public override string ToString()
         {
-            return SpotifyDownloader.GetTrackFullName(Track);
+            return SpotifyDownloader.GetAlbumName(Track) +  " - " +  SpotifyDownloader.GetTrackFullName(Track);
         }
     }
 
@@ -127,6 +127,11 @@ namespace Downtify
         public static string GetTrackFullName(Track track)
         {
             return GetTrackArtistsNames(track) + " - " + track.Name();
+        }
+
+        public static string GetAlbumName(Track track)
+        {
+            return track.Album().Name();
         }
 
         // TODO: Make these become "real events"
@@ -420,6 +425,15 @@ namespace Downtify
         {
             var link = Link.CreateFromString(linkStr);
             var album = AlbumBrowse.Create(_session, link.AsAlbum(), AlbumBrowseCallBack, _session.UserData);
+            await WaitForBool(album.IsLoaded);
+            for (int i = 0; i < album.NumTracks(); i++)
+                await WaitForBool(album.Track(i).IsLoaded);
+            return album;
+        }
+
+        public async Task<AlbumBrowse> FetchAlbum(Album albumRef)
+        {
+            var album = AlbumBrowse.Create(_session, albumRef, AlbumBrowseCallBack, _session.UserData);
             await WaitForBool(album.IsLoaded);
             for (int i = 0; i < album.NumTracks(); i++)
                 await WaitForBool(album.Track(i).IsLoaded);
