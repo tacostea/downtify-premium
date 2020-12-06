@@ -182,20 +182,6 @@ namespace Downtify.GUI
                             listBoxTracks.Items.Add(new TrackItem(album.Track(i)));
                         textBoxLink.Clear();
                     }
-                    else if (link.ToLower().Contains("artist"))
-                    {
-                        var artist = await downloader.FetchArtist(link);
-
-                        for(int i = 0; i < artist.NumAlbums(); i++)
-                        {
-                            var album = await downloader.FetchAlbum(artist.Album(i));
-                            for (int j = 0; j < album.NumTracks(); j++)
-                                listBoxTracks.Items.Add(new TrackItem(album.Track(j)));
-                        }
-                        for (int i = 0; i < artist.NumTracks(); i++)
-                            listBoxTracks.Items.Add(new TrackItem(artist.Track(i)));
-                        textBoxLink.Clear();
-                    }
                     else
                     {
                         SetStatusStripLabelText(StatusTextInvalidLink);

@@ -414,14 +414,6 @@ namespace Downtify
             return playlist;
         }
 
-        public async Task<ArtistBrowse> FetchArtist(string linkStr)
-        {
-            var link = Link.CreateFromString(linkStr);
-            var artist = ArtistBrowse.Create(_session, link.AsArtist(), ArtistBrowseType.Full, ArtistBrowseCallBack, _session.UserData);
-            await WaitForBool(artist.IsLoaded);
-            return artist;
-        }
-
         public async Task<AlbumBrowse> FetchAlbum(string linkStr)
         {
             var link = Link.CreateFromString(linkStr);
@@ -546,14 +538,8 @@ namespace Downtify
 
         private void AlbumBrowseCallBack(AlbumBrowse browse, object userdata)
         {
-            //Implementation not required, but method must exist.
+            //Implentation not required, but method must exist.
         }
-
-        private void ArtistBrowseCallBack(ArtistBrowse browse, object userdata)
-        {
-            //Implementation not required, but method must exist.
-        }
-
 
         private DownloadType GetDownloadType()
         {
